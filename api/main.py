@@ -1,14 +1,25 @@
 import joblib
+import numpy as np
 import pandas as pd
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 app = FastAPI(title="Voyage Analytics API")
+
+# Frontend (Palki) ko alag port se API call karne dene ke liye
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 price_model = joblib.load("models/price_model.pkl")
 price_columns = joblib.load("models/price_columns.pkl")
 gender_model = joblib.load("models/gender_model.pkl")
 gender_columns = joblib.load("models/gender_columns.pkl")
+rec = joblib.load("models/recommender.pkl")
 
 
 class FlightInput(BaseModel):
@@ -27,6 +38,11 @@ class GenderInput(BaseModel):
     n_hotels: int
     avg_stay_days: float
     avg_hotel_total: float
+
+
+class RecommendInput(BaseModel):
+    user_code: int
+    n: int = 3
 
 
 @app.get("/")
@@ -57,3 +73,16 @@ def predict_gender(d: GenderInput):
         "probabilities": {str(c): round(float(p), 3) for c, p in zip(classes, probs)},
         "note": "Demo only: model accuracy is ~34%, close to random guessing.",
     }
+
+
+@app.post("/recommend-hotel")
+def recommend_hotel(d: RecommendInput):
+    n = max(1, min(d.n, len(rec["names"])))
+    if d.user_code in rec["users"]:
+        i = rec["users"].index(d.user_code)
+        scores = rec["matrix"][i] @ rec["similarity"]
+        top = np.argsort(-scores)[:n]
+        return {"user_code": d.user_code, "method": "collaborative_filtering",
+                "recommended_hotels": [rec["names"][j] for j in top]}
+    return {"user_code": d.user_code, "method": "popularity_fallback",
+            "recommended_hotels": rec["popular"][:n]}
