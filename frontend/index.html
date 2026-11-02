@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wayfinder | Travel ML</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="#">✈ Wayfinder</a>
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="flight" role="tab">Flight price</button>
+    <button class="tab" data-tab="gender" role="tab">Gender prediction</button>
+    <button class="tab" data-tab="hotel" role="tab">Hotels</button>
+  </nav>
+</header>
+
+<main class="hero">
+  <section class="intro">
+    <h1 id="title">Know the fare before you book.</h1>
+    <p id="sub">Pick a route and date. Our model estimates the ticket price.</p>
+  </section>
+
+  <section class="panel">
+    <!-- FLIGHT -->
+    <div class="pane active" id="flight">
+      <form class="glass form" data-pane="flight">
+        <div class="row">
+          <label>From<select name="source"><option>Delhi</option><option>Mumbai</option><option>Bangalore</option><option>Kolkata</option><option>Chennai</option></select></label>
+          <label>To<select name="destination"><option>Mumbai</option><option>Delhi</option><option>Bangalore</option><option>Kolkata</option><option>Chennai</option></select></label>
+        </div>
+        <div class="row">
+          <label>Travel date<input type="date" name="date" required></label>
+          <label>Airline<select name="airline"><option>IndiGo</option><option>Air India</option><option>SpiceJet</option><option>Vistara</option></select></label>
+        </div>
+        <button class="cta" type="submit">Predict price</button>
+      </form>
+      <div class="result" id="out-flight"><p class="empty glass">Your fare estimate will appear here.</p></div>
+    </div>
+
+    <!-- GENDER -->
+    <div class="pane" id="gender">
+      <form class="glass form" data-pane="gender">
+        <label>Name<input type="text" name="name" placeholder="e.g. Aarav Sharma" required></label>
+        <label>Age<input type="number" name="age" min="1" max="100" value="25" required></label>
+        <button class="cta" type="submit">Predict gender</button>
+      </form>
+      <div class="result" id="out-gender"><p class="empty glass">The prediction will appear here.</p></div>
+    </div>
+
+    <!-- HOTEL -->
+    <div class="pane" id="hotel">
+      <form class="glass form" data-pane="hotel">
+        <label>City<input type="text" name="city" placeholder="e.g. Goa" required></label>
+        <label>Budget per night: <b id="budgetVal">₹3,000</b>
+          <input type="range" name="budget" min="500" max="20000" step="500" value="3000"></label>
+        <button class="cta" type="submit">Find hotels</button>
+      </form>
+      <div class="result" id="out-hotel"><p class="empty glass">Hotel picks will appear here.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">Built with Flask/FastAPI, scikit-learn and MLflow. <span id="mode"></span></footer>
+<script src="script.js"></script>
+</body>
+</html>
