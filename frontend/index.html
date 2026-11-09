@@ -29,12 +29,12 @@
     <div class="pane active" id="flight">
       <form class="glass form" data-pane="flight">
         <div class="row">
-          <label>From<select name="source"><option>Delhi</option><option>Mumbai</option><option>Bangalore</option><option>Kolkata</option><option>Chennai</option></select></label>
-          <label>To<select name="destination"><option>Mumbai</option><option>Delhi</option><option>Bangalore</option><option>Kolkata</option><option>Chennai</option></select></label>
+          <label>From<select name="from_city" id="from_city"></select></label>
+          <label>To<select name="to" id="to"></select></label>
         </div>
         <div class="row">
-          <label>Travel date<input type="date" name="date" required></label>
-          <label>Airline<select name="airline"><option>IndiGo</option><option>Air India</option><option>SpiceJet</option><option>Vistara</option></select></label>
+          <label>Class<select name="flightType"><option>economic</option><option>premium</option><option>firstClass</option></select></label>
+          <label>Agency<select name="agency"><option>FlyingDrops</option><option>CloudFy</option><option>Rainbow</option></select></label>
         </div>
         <button class="cta" type="submit">Predict price</button>
       </form>
@@ -44,8 +44,22 @@
     <!-- GENDER -->
     <div class="pane" id="gender">
       <form class="glass form" data-pane="gender">
-        <label>Name<input type="text" name="name" placeholder="e.g. Aarav Sharma" required></label>
-        <label>Age<input type="number" name="age" min="1" max="100" value="25" required></label>
+        <div class="row">
+          <label>Age<input type="number" name="age" min="1" max="100" value="30" required></label>
+          <label>Company<select name="company"><option>4You</option><option>Acme Factory</option><option>Monsters CYA</option><option>Umbrella LTDA</option><option>Wonka Company</option></select></label>
+        </div>
+        <div class="row">
+          <label>Number of flights<input type="number" name="n_flights" min="0" value="10" required></label>
+          <label>Avg flight price<input type="number" name="avg_flight_price" min="0" step="0.01" value="900" required></label>
+        </div>
+        <div class="row">
+          <label>Avg distance<input type="number" name="avg_distance" min="0" step="0.01" value="500" required></label>
+          <label>Number of hotels<input type="number" name="n_hotels" min="0" value="5" required></label>
+        </div>
+        <div class="row">
+          <label>Avg stay (days)<input type="number" name="avg_stay_days" min="0" step="0.01" value="3" required></label>
+          <label>Avg hotel total<input type="number" name="avg_hotel_total" min="0" step="0.01" value="800" required></label>
+        </div>
         <button class="cta" type="submit">Predict gender</button>
       </form>
       <div class="result" id="out-gender"><p class="empty glass">The prediction will appear here.</p></div>
@@ -54,10 +68,9 @@
     <!-- HOTEL -->
     <div class="pane" id="hotel">
       <form class="glass form" data-pane="hotel">
-        <label>City<input type="text" name="city" placeholder="e.g. Goa" required></label>
-        <label>Budget per night: <b id="budgetVal">₹3,000</b>
-          <input type="range" name="budget" min="500" max="20000" step="500" value="3000"></label>
-        <button class="cta" type="submit">Find hotels</button>
+        <label>User code<input type="number" name="user_code" min="0" max="1339" value="0" required><small>Valid range: 0 to 1339</small></label>
+        <label>How many hotels<input type="number" name="n" min="1" max="10" value="3" required></label>
+        <button class="cta" type="submit">Recommend hotels</button>
       </form>
       <div class="result" id="out-hotel"><p class="empty glass">Hotel picks will appear here.</p></div>
     </div>
